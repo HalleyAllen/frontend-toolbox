@@ -130,6 +130,72 @@
   width: 100%;
   padding: 8px;
   font-size: 14px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  transition: border-color 0.3s ease;
+}
+
+.form-group.inline input:focus {
+  outline: none;
+  border-color: #1890ff;
+  box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
+}
+
+/* 操作按钮组样式 */
+.operation-buttons {
+  min-width: 100px;
+}
+
+.operation-btn-group {
+  display: flex;
+  gap: 5px;
+  margin-top: 5px;
+}
+
+.operation-btn {
+  flex: 1;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 14px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.operation-btn:hover {
+  border-color: #1890ff;
+  color: #1890ff;
+}
+
+.operation-btn.active {
+  background-color: #1890ff;
+  color: white;
+  border-color: #1890ff;
+}
+
+/* 占位元素样式 */
+.operation-buttons.placeholder {
+  visibility: hidden;
+}
+
+.operation-btn.placeholder {
+  visibility: hidden;
+}
+
+
+
+/* 按钮组样式 */
+.button-group {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.button-group button {
+  flex: 1;
 }
 
 /* 按钮样式 */
@@ -148,8 +214,6 @@
 }
 
 .add-row-btn {
-  display: block;
-  width: 100%;
   padding: 10px;
   background-color: #52c41a;
   color: white;
@@ -158,11 +222,25 @@
   font-size: 14px;
   cursor: pointer;
   transition: background-color 0.3s ease;
-  margin-bottom: 20px;
 }
 
 .add-row-btn:hover {
   background-color: #73d13d;
+}
+
+.clear-btn {
+  padding: 10px;
+  background-color: #ff7a45;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.clear-btn:hover {
+  background-color: #ff9c6e;
 }
 
 .remove-btn {
@@ -206,4 +284,23 @@
   color: #333;
   font-size: 14px;
   line-height: 1.5;
+}
+
+/* 负数结果样式 */
+.result p:contains('-') {
+  color: #ff4d4f;
+}
+
+/* 为了兼容不支持:contains的浏览器，添加一个辅助类 */
+.result.negative {
+  background-color: #fff2f0;
+  border: 1px solid #ffccc7;
+}
+
+.result.negative h3 {
+  color: #ff4d4f;
+}
+
+.result.negative p {
+  color: #ff4d4f;
 }
