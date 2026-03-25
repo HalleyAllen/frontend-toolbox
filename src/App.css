@@ -116,7 +116,7 @@
 
 .form-group.inline {
   flex: 1;
-  min-width: 100px;
+  min-width: 60px;
   margin-bottom: 0;
 }
 
@@ -183,6 +183,65 @@
 
 .operation-btn.placeholder {
   visibility: hidden;
+}
+
+/* 备注显示开关样式 */
+.toggle-container {
+  margin-bottom: 20px;
+  padding: 10px;
+  background-color: #f0f0f0;
+  border-radius: 4px;
+}
+
+.toggle-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  color: #666;
+  cursor: pointer;
+}
+
+.toggle-label input[type="checkbox"] {
+  width: auto;
+  margin: 0;
+}
+
+/* 备注输入框样式 */
+.note-input {
+  flex: 2;
+  min-width: 80px !important;
+}
+
+.note-input input {
+  width: 100%;
+  padding: 8px;
+  font-size: 14px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  transition: border-color 0.3s ease;
+}
+
+.note-input input:focus {
+  outline: none;
+  border-color: #1890ff;
+  box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
+}
+
+/* 复选框容器样式 */
+.checkbox-container {
+  display: flex;
+  align-items: flex-end;
+  padding-bottom: 8px;
+  min-width: 40px;
+}
+
+.checkbox-container input[type="checkbox"] {
+  width: auto;
+  height: 16px;
+  width: 16px;
+  margin: 0;
+  cursor: pointer;
 }
 
 

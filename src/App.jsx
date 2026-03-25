@@ -3,11 +3,12 @@ import './App.css'
 
 function App() {
   const [activeTool, setActiveTool] = useState('time-calculator')
-  const [timeRows, setTimeRows] = useState([{ days: '', hours: '', minutes: '', seconds: '', multiplier: '', operation: 'add' }])
+  const [timeRows, setTimeRows] = useState([{ days: '', hours: '', minutes: '', seconds: '', multiplier: '', operation: 'add', note: '', checked: true }])
   const [result, setResult] = useState('')
+  const [showNotes, setShowNotes] = useState(false)
 
   const addRow = () => {
-    setTimeRows([...timeRows, { days: '', hours: '', minutes: '', seconds: '', multiplier: '', operation: 'add' }])
+    setTimeRows([...timeRows, { days: '', hours: '', minutes: '', seconds: '', multiplier: '', operation: 'add', note: '', checked: true }])
   }
 
   const removeRow = (index) => {
@@ -27,15 +28,34 @@ function App() {
     setTimeRows(newRows)
   }
 
+  // 计算数学表达式的函数
+  const evaluateExpression = (expression) => {
+    if (!expression || expression.trim() === '') {
+      return 1
+    }
+    try {
+      // 使用Function构造函数安全地计算表达式
+      // 只允许数字和基本运算符
+      const sanitizedExpression = expression.replace(/[^0-9+\-*/().\s]/g, '')
+      const result = new Function(`return ${sanitizedExpression}`)()
+      return isNaN(result) ? 1 : Math.abs(Math.round(result))
+    } catch (error) {
+      return 1
+    }
+  }
+
   const calculateTime = () => {
-    if (timeRows.length === 0) {
-      setResult('请添加时间数据')
+    // 过滤出选中的行
+    const checkedRows = timeRows.filter(row => row.checked)
+
+    if (checkedRows.length === 0) {
+      setResult('请至少选择一行时间数据')
       return
     }
 
     // 计算第一行作为初始值
-    const firstRow = timeRows[0]
-    const multiplier1 = parseInt(firstRow.multiplier) || 1
+    const firstRow = checkedRows[0]
+    const multiplier1 = evaluateExpression(firstRow.multiplier)
     let totalDays = (parseInt(firstRow.days) || 0) * multiplier1
     let totalHours = (parseInt(firstRow.hours) || 0) * multiplier1
     let totalMinutes = (parseInt(firstRow.minutes) || 0) * multiplier1
@@ -45,9 +65,9 @@ function App() {
     let totalSeconds1 = totalDays * 24 * 60 * 60 + totalHours * 60 * 60 + totalMinutes * 60 + totalSeconds
 
     // 处理其余行
-    for (let i = 1; i < timeRows.length; i++) {
-      const row = timeRows[i]
-      const multiplier = parseInt(row.multiplier) || 1
+    for (let i = 1; i < checkedRows.length; i++) {
+      const row = checkedRows[i]
+      const multiplier = evaluateExpression(row.multiplier)
       const days = (parseInt(row.days) || 0) * multiplier
       const hours = (parseInt(row.hours) || 0) * multiplier
       const minutes = (parseInt(row.minutes) || 0) * multiplier
@@ -98,10 +118,27 @@ function App() {
           <div className="tool-container">
             <h2>时间加减计算器</h2>
 
-
+            {/* 备注显示开关 */}
+            <div className="toggle-container">
+              <label className="toggle-label">
+                <input
+                  type="checkbox"
+                  checked={showNotes}
+                  onChange={(e) => setShowNotes(e.target.checked)}
+                />
+                显示备注
+              </label>
+            </div>
 
             {timeRows.map((row, index) => (
               <div key={index} className="time-row">
+                <div className="form-group inline checkbox-container">
+                  <input
+                    type="checkbox"
+                    checked={row.checked}
+                    onChange={(e) => updateRow(index, 'checked', e.target.checked)}
+                  />
+                </div>
                 {index === 0 ? (
                   <div className="form-group inline operation-buttons placeholder">
                     <label>&nbsp;</label>
@@ -170,6 +207,17 @@ function App() {
                     min="1"
                   />
                 </div>
+                {showNotes && (
+                  <div className="form-group inline note-input">
+                    <label>备注：</label>
+                    <input
+                      type="text"
+                      value={row.note}
+                      onChange={(e) => updateRow(index, 'note', e.target.value)}
+                      placeholder="输入备注"
+                    />
+                  </div>
+                )}
                 {timeRows.length > 1 && (
                   <button
                     className="remove-btn"
