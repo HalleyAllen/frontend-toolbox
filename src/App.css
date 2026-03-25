@@ -176,15 +176,6 @@
   border-color: #1890ff;
 }
 
-/* 占位元素样式 */
-.operation-buttons.placeholder {
-  visibility: hidden;
-}
-
-.operation-btn.placeholder {
-  visibility: hidden;
-}
-
 /* 备注显示开关样式 */
 .toggle-container {
   margin-bottom: 20px;

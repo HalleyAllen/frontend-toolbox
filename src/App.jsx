@@ -64,6 +64,11 @@ function App() {
     // 转换为总秒数
     let totalSeconds1 = totalDays * 24 * 60 * 60 + totalHours * 60 * 60 + totalMinutes * 60 + totalSeconds
 
+    // 应用第一行的操作（用于表示正负）
+    if (firstRow.operation === 'subtract') {
+      totalSeconds1 = -totalSeconds1
+    }
+
     // 处理其余行
     for (let i = 1; i < checkedRows.length; i++) {
       const row = checkedRows[i]
@@ -139,33 +144,23 @@ function App() {
                     onChange={(e) => updateRow(index, 'checked', e.target.checked)}
                   />
                 </div>
-                {index === 0 ? (
-                  <div className="form-group inline operation-buttons placeholder">
-                    <label>&nbsp;</label>
-                    <div className="operation-btn-group">
-                      <div className="operation-btn placeholder"></div>
-                      <div className="operation-btn placeholder"></div>
-                    </div>
+                <div className="form-group inline operation-buttons">
+                  <label>操作：</label>
+                  <div className="operation-btn-group">
+                    <button
+                      className={`operation-btn ${row.operation === 'add' ? 'active' : ''}`}
+                      onClick={() => updateRow(index, 'operation', 'add')}
+                    >
+                      +
+                    </button>
+                    <button
+                      className={`operation-btn ${row.operation === 'subtract' ? 'active' : ''}`}
+                      onClick={() => updateRow(index, 'operation', 'subtract')}
+                    >
+                      -
+                    </button>
                   </div>
-                ) : (
-                  <div className="form-group inline operation-buttons">
-                    <label>操作：</label>
-                    <div className="operation-btn-group">
-                      <button
-                        className={`operation-btn ${row.operation === 'add' ? 'active' : ''}`}
-                        onClick={() => updateRow(index, 'operation', 'add')}
-                      >
-                        +
-                      </button>
-                      <button
-                        className={`operation-btn ${row.operation === 'subtract' ? 'active' : ''}`}
-                        onClick={() => updateRow(index, 'operation', 'subtract')}
-                      >
-                        -
-                      </button>
-                    </div>
-                  </div>
-                )}
+                </div>
                 <div className="form-group inline">
                   <label>天数：</label>
                   <input
